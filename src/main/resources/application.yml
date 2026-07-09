@@ -7,4 +7,4 @@ spring:
       uri: mongodb://localhost:27017
       database: splitcart
 server:
-  port:
+  port: 8081

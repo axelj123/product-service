@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/products")
     public Flux<Product> listProducts(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal maxPrice,
@@ -29,7 +29,7 @@ public class ProductController {
         return productService.list(category, maxPrice, page, size);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public Mono<ResponseEntity<Product>> getProductById(
             @PathVariable String id) {
 
@@ -38,7 +38,7 @@ public class ProductController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/availability")
+    @GetMapping("/products/availability")
     public Flux<Availability> getAvailability(
             @RequestParam String ids) {
 
