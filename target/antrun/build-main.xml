@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <delete dir="C:\Proy2026\Bootcamp26\Reactividad\v7\S\product-service\target/generated-sources/openapi/src/test" />
+  </target>
+</project>

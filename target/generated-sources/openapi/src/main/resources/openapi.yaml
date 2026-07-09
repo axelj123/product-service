@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: SplitCart Product API
+  version: 1.0.0
+servers:
+- url: http://localhost:8081
+paths:
+  /api/products:
+    get:
+      operationId: listProducts
+      parameters:
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: maxPrice
+        required: false
+        schema:
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+                type: array
+          description: Lista de productos
+      summary: Listado de productos con filtros y paginación
+      tags:
+      - Products
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Products
+  /api/products/{id}:
+    get:
+      operationId: getProductById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: Producto encontrado
+        "404":
+          description: Producto no encontrado
+      summary: Obtener producto por ID/SKU
+      tags:
+      - Products
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Products
+  /api/products/availability:
+    get:
+      operationId: getAvailability
+      parameters:
+      - description: Lista de SKUs separados por coma
+        explode: true
+        in: query
+        name: ids
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Availability'
+                type: array
+          description: Disponibilidad por SKU
+      summary: Disponibilidad de múltiples SKUs
+      tags:
+      - Products
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Products
+components:
+  schemas:
+    Product:
+      example:
+        price: 0.8008281904610115
+        name: name
+        id: id
+        category: category
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        price:
+          type: number
+      type: object
+    Availability:
+      example:
+        available: 0
+        sku: sku
+      properties:
+        sku:
+          type: string
+        available:
+          type: integer
+      type: object
